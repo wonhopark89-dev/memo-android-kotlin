@@ -7,17 +7,19 @@
   tools:context=".MainActivity"
   >
 
-  <TextView
-    android:id="@+id/title"
-    android:layout_width="wrap_content"
+  <Button
+    android:id="@+id/button_add"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
-    android:text="Memo List"
-    android:textSize="28dp"
-    android:textStyle="bold"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/colorPink"
+    android:text="Add"
+    android:textAllCaps="false"
+    android:textColor="@color/colorWhite"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toEndOf="@id/edittext_memo"
     />
 
   <EditText
@@ -31,17 +33,26 @@
     app:layout_constraintStart_toStartOf="parent"
     />
 
-  <Button
-    android:id="@+id/button_add"
-    android:layout_width="0dp"
+  <TextView
+    android:id="@+id/title"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
-    android:text="Add"
-    android:textAllCaps="false"
-    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginTop="32dp"
+    android:text="Memo List"
+    android:textSize="28dp"
+    android:textStyle="bold"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@id/edittext_memo"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+
+  <android.support.v7.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    app:layout_constraintBottom_toTopOf="@+id/edittext_memo"
+    app:layout_constraintTop_toBottomOf="@+id/title"
     />
 
 </android.support.constraint.ConstraintLayout>
