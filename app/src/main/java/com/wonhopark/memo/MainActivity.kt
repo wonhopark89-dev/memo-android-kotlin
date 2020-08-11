@@ -21,10 +21,13 @@ class MainActivity : AppCompatActivity(), OnDeleteListener {
 
         button_add.setOnClickListener {
             val memo = MemoEntity(null, edittext_memo.text.toString()) // id is auto generated
+            edittext_memo.setText("")
             insertMemo(memo)
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(this);
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        getAllMemos()
     }
 
     // 1. InsertData
