@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 @SuppressLint("StaticFieldLeak") // 메모리 누수 관련된 경고를 무시
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnDeleteListener {
 
     lateinit var db: MemoDatabase
     var memoList = listOf<MemoEntity>()
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
             val memo = MemoEntity(null, edittext_memo.text.toString()) // id is auto generated
             insertMemo(memo)
         }
+
+        recyclerView.layoutManager = LinearLayoutManager(this);
     }
 
     // 1. InsertData
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun getAllMemos() {
-        val getTask = (object : AsyncTask<Unit, Unit, Unit>() {
+        val getTask = object : AsyncTask<Unit, Unit, Unit>() {
             override fun doInBackground(vararg params: Unit?) {
                 memoList = db.memoDAO().getAll()
             }
@@ -56,14 +59,29 @@ class MainActivity : AppCompatActivity() {
                 super.onPostExecute(result)
                 setRecyclerView(memoList)
             }
-        }).execute()
+        }
+        getTask.execute()
     }
 
-    fun deleteMemo() {
+    fun deleteMemo(memo: MemoEntity) {
+        val deleteTask = object : AsyncTask<Unit, Unit, Unit>() {
+            override fun doInBackground(vararg params: Unit?) {
+                db.memoDAO().delete(memo)
+            }
 
+            override fun onPostExecute(result: Unit?) {
+                super.onPostExecute(result)
+                getAllMemos()
+            }
+        }
+        deleteTask.execute()
     }
 
     fun setRecyclerView(memoList: List<MemoEntity>) {
+        recyclerView.adapter = MyAdapter(this, memoList, this)
+    }
 
+    override fun onDeleteListener(memo: MemoEntity) {
+        deleteMemo(memo)
     }
 }
